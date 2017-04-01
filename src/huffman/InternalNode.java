@@ -31,5 +31,10 @@ public class InternalNode<T> extends HuffmanNode {
 	public String toString() {
 		return "InternalNode [leftChild=" + leftChild + ", rightChild=" + rightChild + "]";
 	}
+
+	@Override
+	public boolean isLeaf() {
+		return false;
+	}
 	
 }

@@ -7,6 +7,8 @@ public abstract class HuffmanNode implements Comparable<HuffmanNode>{
 	private final long frequency;
 	private Optional<HuffmanNode> parent;
 	
+	public abstract boolean isLeaf();
+	
 	public HuffmanNode(long frequency,HuffmanNode parent) {
 		super();
 		this.frequency = frequency;

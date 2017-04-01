@@ -17,5 +17,10 @@ public class LeafNode<T> extends HuffmanNode {
 	public String toString() {
 		return "LeafNode [symbol=" + symbol + ", getFrequency()=" + getFrequency() + "]";
 	}
+
+	@Override
+	public boolean isLeaf() {
+		return true;
+	}
 	
 }
