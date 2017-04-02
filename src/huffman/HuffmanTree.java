@@ -51,7 +51,7 @@ public class HuffmanTree<T> {
 		List<Boolean> symbolCode = new LinkedList<>(code);
 		symbolCode.add(lr);
 		if (node.isLeaf()) {
-			LeafNode leaf = (LeafNode) node;
+			LeafNode<T> leaf = (LeafNode<T>) node;
 			return new HashMap<T, List<Boolean>>(table) {
 				{
 					put((T) leaf.getSymbol(), symbolCode);
@@ -88,6 +88,20 @@ public class HuffmanTree<T> {
 		nQueue.add(internalNode);
 		return nQueue;
 	}
+	
+	private static<T> Map<T,String> stringRepresentationOfCodes(Map<? extends T,List<Boolean>> table){
+		return new HashMap<T,String>(){{
+			table.entrySet().stream().forEach(entry->put(entry.getKey(), strRepr(entry.getValue())));
+		}};
+	}
+	
+	private static String strRepr(List<Boolean> code){
+		StringBuilder builder = new StringBuilder();
+		code.forEach(bool->{
+			builder.append(bool ? "1" : "0");
+		});
+		return builder.toString();
+	}
 
 	public void printLeafNodes() {
 		for (LeafNode<? extends T> node : leafNodes) {
@@ -101,14 +115,14 @@ public class HuffmanTree<T> {
 	}
 
 	public static void main(String[] args) {
-		List<Integer> data = Arrays.asList(1, 1, 3, 3, 9, 3, 1, 4, 5, 6, 7, 1, 10, 10, 4, 7, 6, 5, 5, 5, 7, 6, 10, 8, 4,
+		List<Integer> data = Arrays.asList(1, 1, 3, 3, 9, 3, 1, 4, 5, 6, 7, 1, 10, 10, 4, 7, 6, 5, 5, 5, 7, 6, 10, 8, 4,1,2,2,2,2,
 				3);
 		Set<Integer> vocabulary = IntStream.rangeClosed(1, 10).boxed().collect(Collectors.toSet());
 
 		HuffmanTree<Integer> treeOfInts = new HuffmanTree<>(vocabulary, data);
 		// treeOfInts.printLeafNodes();
 		//System.out.println(treeOfInts.createRoot());
-		System.out.println(treeOfInts.createHuffmanTable());
+		System.out.println(stringRepresentationOfCodes(treeOfInts.createHuffmanTable()));
 	}
 
 }
