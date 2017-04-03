@@ -1,4 +1,4 @@
-package jpeg;
+package image_transformation;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -61,7 +61,7 @@ public class ComponentsExtractor {
 
 	}
 
-	public Map<String, double[][]> extractYCrCbComponents(String filePath) {
+	public Map<String, double[][]> extractYCrCbComponents() {
 		if (!this.components.isEmpty()) {
 			return calculateYCrCb(components, width, height);
 		}

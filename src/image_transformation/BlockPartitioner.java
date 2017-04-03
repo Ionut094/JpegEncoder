@@ -1,4 +1,4 @@
-package jpeg;
+package image_transformation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
