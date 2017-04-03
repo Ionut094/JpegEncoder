@@ -100,8 +100,6 @@ public class ComponentsExtractor {
 
 	private void extractRGBComponentsFromImage() {
 
-		adjustHeightAndWidth();
-
 		red = new int[height][width];
 		green = new int[height][width];
 		blue = new int[height][width];

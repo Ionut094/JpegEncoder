@@ -187,8 +187,8 @@ public class HuffmanTree<T> {
 		HuffmanTree<Integer> treeOfInts = new HuffmanTree<>(vocabulary, data);
 		// treeOfInts.printLeafNodes();
 		// System.out.println(treeOfInts.createRoot());
-		// System.out.println(stringRepresentationOfCodes(treeOfInts.createHuffmanTable()));
-		System.out.println(treeOfInts.getHuffmanTable());
+		 System.out.println(stringRepresentationOfCodes(treeOfInts.createHuffmanTable()));
+		//System.out.println(treeOfInts.getHuffmanTable());
 
 		// System.out.println(Integer.toHexString(
 		// HuffmanTree.generateByte(Arrays.asList(true, true, true, false, true,

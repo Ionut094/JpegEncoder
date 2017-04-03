@@ -78,7 +78,7 @@ public class JpegEncoder {
 		zigzagPositions[55] = IntTuple.tupleOf(5, 6);
 		zigzagPositions[56] = IntTuple.tupleOf(6, 5);
 		zigzagPositions[57] = IntTuple.tupleOf(7, 4);
-		zigzagPositions[580] = IntTuple.tupleOf(7, 5);
+		zigzagPositions[58] = IntTuple.tupleOf(7, 5);
 		zigzagPositions[59] = IntTuple.tupleOf(6, 6);
 		zigzagPositions[60] = IntTuple.tupleOf(5, 7);
 		zigzagPositions[61] = IntTuple.tupleOf(6, 7);
@@ -177,6 +177,11 @@ public class JpegEncoder {
 		 * 
 		 * 
 		 * */
+		
+		JpegEncoder encoder = new JpegEncoder("C:/Users/Iancu422/Desktop/muaddibthrone.jpg");
+		List<Byte[]> data = encoder.getCodedData();
+		data.forEach(b->System.out.println(b));
+		
 	}
 
 }
