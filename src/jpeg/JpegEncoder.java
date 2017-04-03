@@ -1,14 +1,13 @@
 package jpeg;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import helperClasses.IntTuple;
+import huffman.HuffmanTree;
 import image_transformation.BlockPartitioner;
 import image_transformation.ComponentsExtractor;
 import image_transformation.DiscreteCosineTransform;
@@ -16,6 +15,8 @@ import image_transformation.DiscreteCosineTransform;
 public class JpegEncoder {
 
 	private final static IntTuple[] zigzagPositions;
+	private final Map<Integer,Byte[]> huffmanTable;
+	private final List<Byte[]> codedData;
 
 	static {
 		zigzagPositions = new IntTuple[64];
@@ -109,16 +110,46 @@ public class JpegEncoder {
 		DiscreteCosineTransform discreteCosineTransformer = new DiscreteCosineTransform();
 		Map<String, List<int[][]>> blocks = discreteCosineTransformer
 				.calculateDCTandQuantizeYCrCbBlocks(partitionedBlocks);
-
+		
+		/* Based on the 3 matrixes create a list containing all the data*/
+		List<Integer> data = applyZigZagToComponents(blocks);
+		Set<Integer> vocabulary = createVocabulary(data);
+		
+		/* Create Huffman Tree and get the associated huffman table*/
+		HuffmanTree<Integer> huffmanTree = new HuffmanTree<>(vocabulary, data);
+		this.huffmanTable = huffmanTree.getHuffmanTable();
+		
+		/*Create list of coded data*/
+		this.codedData = replaceSymbols(data, huffmanTable);
+	}
+	
+	public Map<Integer, Byte[]> getHuffmanTable() {
+		return huffmanTable;
 	}
 
+	public List<Byte[]> getCodedData() {
+		return codedData;
+	}
+
+	private List<Byte[]> replaceSymbols(List<Integer> data,Map<Integer,Byte[]> huffmanTable){
+		return data.stream().map(symbol->huffmanTable.get(symbol)).collect(Collectors.toList());
+	}
+	
 	private List<Integer> applyZigZagToComponents(Map<String, List<int[][]>> blocks) {
-		List<int[]> data = blocks.entrySet().stream()
+		return blocks.entrySet().stream()
 								.map(entry -> entry.getValue())
 								.flatMap(list -> zigzagedBlocks(list).stream())
-//TODO
+								.flatMap(arr->Arrays.asList(boxedArray(arr)).stream())
 								.collect(Collectors.toList());
-		return null;
+		
+	}
+
+	private Integer[] boxedArray(int[] arr) {
+		Integer[] arrOfIntegers = new Integer[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			arrOfIntegers[i] = arr[i];
+		}
+		return arrOfIntegers;
 	}
 
 	private static List<int[]> zigzagedBlocks(List<int[][]> blocks) {
@@ -132,6 +163,20 @@ public class JpegEncoder {
 			block[i] = matrix[position.getY()][position.getX()];
 		}
 		return block;
+	}
+	
+	private Set<Integer> createVocabulary(List<Integer> data){
+		return data.stream().distinct().collect(Collectors.toSet());
+	}
+	
+	public static void main(String[] args) {
+		/*
+		 * 
+		 * 
+		 * 
+		 * 
+		 * 
+		 * */
 	}
 
 }
