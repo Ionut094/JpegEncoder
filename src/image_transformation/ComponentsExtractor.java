@@ -67,7 +67,7 @@ public class ComponentsExtractor {
 		}
 		return calculateYCrCb(extractRGBComponents(), width, height);
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
@@ -104,8 +104,8 @@ public class ComponentsExtractor {
 		green = new int[height][width];
 		blue = new int[height][width];
 
-		for (int i = 0; i < height - heightOffset; i++) {
-			for (int j = 0; j < width - widthOffset; j++) {
+		for (int i = 0; i < height - (8 - heightOffset); i++) {
+			for (int j = 0; j < width - (8 - widthOffset); j++) {
 				Color color = new Color(image.getRGB(j, i));
 				red[i][j] = color.getRed();
 				green[i][j] = color.getGreen();
